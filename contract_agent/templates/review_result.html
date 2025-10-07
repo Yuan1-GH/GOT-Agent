@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合同审查结果 - {{ file_name }}</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f8f9fa; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px; }
+        /* 标签页样式 */
+        .tabs { overflow: hidden; border-bottom: 1px solid #ccc; margin-bottom: 15px; }
+        .tab-button { background-color: #e9ecef; float: left; border: none; outline: none; cursor: pointer; padding: 10px 20px; transition: 0.3s; font-size: 16px; border-top-left-radius: 5px; border-top-right-radius: 5px; margin-right: 5px; }
+        .tab-button:hover { background-color: #dee2e6; }
+        .tab-button.active { background-color: #fff; border: 1px solid #ccc; border-bottom: none; }
+        .tab-content { display: none; padding: 20px; border: 1px solid #ccc; border-top: none; white-space: pre-wrap; word-break: break-word; }
+        .result-container { padding: 10px; border: 1px dashed #ccc; background-color: #f4f6f9; max-height: 70vh; overflow-y: auto; }
+        /* 突出显示 LLM 结果的 Markdown 渲染样式 */
+        .markdown-rendered h2 { color: #dc3545; } /* 风险点标题红色 */
+        .markdown-rendered ul, .markdown-rendered ol { margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📑 合同审查报告</h1>
+        <p><strong>文件名称：</strong> {{ file_name }}</p>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab(event, 'ReviewResult')">⭐ 审查结果 </button>
+            <button class="tab-button" onclick="openTab(event, 'OriginalText')">📃 原始合同文本</button>
+            <button class="tab-button" onclick="openTab(event, 'RawMarkdown')">💻 LLM 原始输出</button>
+        </div>
+
+        <div id="ReviewResult" class="tab-content result-container" style="display: block;">
+            <div class="markdown-rendered">
+                {{ html_result | safe }} </div>
+        </div>
+
+        <div id="OriginalText" class="tab-content result-container">
+            <pre>{{ original_text }}</pre>
+        </div>
+
+        <div id="RawMarkdown" class="tab-content result-container">
+            <pre>{{ review_result_markdown }}</pre>
+        </div>
+        
+        <p style="margin-top: 20px;"><a href="/">返回首页继续审查</a></p>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            
+            // 隐藏所有内容
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            
+            // 移除所有按钮的 'active' 类
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            
+            // 显示当前标签内容，并激活按钮
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</body>
+</html>

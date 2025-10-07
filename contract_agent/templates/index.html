@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 50px; background-color: #f4f7f6; }
+        .container { max-width: 600px; margin: auto; padding: 40px; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #333; text-align: center; margin-bottom: 30px; }
+        form { display: flex; flex-direction: column; align-items: center; }
+        input[type="file"] { border: 1px solid #ccc; padding: 10px; border-radius: 4px; width: 100%; margin-bottom: 20px; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>合同审查智能代理</h1>
+        <form action="/review" method="post" enctype="multipart/form-data">
+            <label for="file-upload" style="margin-bottom: 10px;">请上传您需要审查的合同文件 (如 PDF, JPG)：</label>
+            <input type="file" name="file" id="file-upload" required>
+            <button type="submit">开始审查合同</button>
+        </form>
+    </div>
+</body>
+</html>
